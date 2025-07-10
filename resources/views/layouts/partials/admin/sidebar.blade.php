@@ -6,6 +6,12 @@
                'route' => route('admin.dashboard'),
                'active' => request()->routeIs('admin.dashboard'),
            ],
+           [
+               'icon' => 'fa-regular fa-font-awesome',
+               'name' => 'Familias',
+               'route' => route('admin.families.index'),
+               'active' => request()->routeIs('admin.families.*'),
+           ],
        ];
    @endphp
 

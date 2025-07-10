@@ -8,10 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Family extends Model
 {
     use hasFactory;
-    protected $fillable = [
-        'name',
-    ];
-
+    protected $table = 'families';
+    protected $primaryKey = 'id'; // Aseguramos el campo primario
+    protected $fillable = ['name'];
 
     //relacion uno a muchos 
     public function categories()

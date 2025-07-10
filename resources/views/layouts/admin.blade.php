@@ -30,6 +30,9 @@
     'overflow-y-hidden': sidebarOpen
 }">
 
+
+
+
     <!-- elmento donde se añade el fondo oscuro en  el menu
     'overflow-y-hidden': sidebarOpen para lo del scroll
     -->
@@ -50,21 +53,43 @@
     <div class="p-4 sm:ml-64">
 
 
-    <!-- Breadcrumb -->
-    @if (!empty($breadcrumbs))
-        <div class="mt-14 mb-4">
-            @include('layouts.partials.admin.breadcrumb', [
-                'breadcrumbs' => $breadcrumbs,
-                'title' => $breadcrumbs[array_key_last($breadcrumbs)]['name'] ?? null,
-            ])
-        </div>
-    @endif
+        <!-- Breadcrumb -->
 
-    <!-- Contenido principal -->
-    <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
-        {{ $slot }}
+
+        <div class=" justify-between flex items-center mt-14 mb-4">
+            @if (!empty($breadcrumbs))
+                @include('layouts.partials.admin.breadcrumb', [
+                    'breadcrumbs' => $breadcrumbs,
+                    'title' => $breadcrumbs[array_key_last($breadcrumbs)]['name'] ?? null,
+                ])
+            @endif
+
+            @isset($action)
+                <div>
+                    {{ $action }}
+                </div>
+            @endisset
+        </div>
+        @if (session('success'))
+            <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
+                role="alert">
+                <span class="font-medium">¡Éxito!</span> {{ session('success') }}
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                role="alert">
+                <span class="font-medium">¡Error!</span> {{ session('error') }}
+            </div>
+        @endif
+
+
+        <!-- Contenido principal -->
+        <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
+            {{ $slot }}
+        </div>
     </div>
-</div>
 
     @livewireScripts
 </body>
