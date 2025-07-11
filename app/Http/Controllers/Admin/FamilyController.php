@@ -13,7 +13,7 @@ class FamilyController extends Controller
      */
     public function index()
     {
-        $families = Family::orderBy('id', 'desc')->
+        $families = Family::orderBy('id', 'asc')->
             paginate(8);
         return view('admin.families.index', compact('families'));
     }
