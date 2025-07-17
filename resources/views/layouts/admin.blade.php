@@ -70,7 +70,9 @@
                 </div>
             @endisset
         </div>
-        @if (session('success'))
+
+        
+        {{-- @if (session('success'))
             <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
                 role="alert">
                 <span class="font-medium">¡Éxito!</span> {{ session('success') }}
@@ -82,7 +84,7 @@
                 role="alert">
                 <span class="font-medium">¡Error!</span> {{ session('error') }}
             </div>
-        @endif
+        @endif --}}
 
 
         <!-- Contenido principal -->
@@ -91,7 +93,38 @@
         </div>
     </div>
 
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     @livewireScripts
+
+    @stack('js')
+
+
+    <!-- Mensajes de éxito y error -->
+    @if (session('success'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Éxito',
+                text: '{{ session('success') }}',
+                confirmButtonText: 'Aceptar'
+            });
+        </script>
+    @endif
+
+    @if (session('error'))
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: '{{ session('error') }}',
+                confirmButtonText: 'Aceptar'
+            });
+        </script>
+    @endif
+
+
 </body>
 
 </html>

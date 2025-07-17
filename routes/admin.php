@@ -1,6 +1,7 @@
 <?php
 
 use App\http\Controllers\Admin\FamilyController;
+use App\Http\Controllers\Admin\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -11,4 +12,5 @@ route::get('/', function () {
 
 
 route::resource('families', FamilyController::class);
+route::resource('categories', CategoryController::class);
     

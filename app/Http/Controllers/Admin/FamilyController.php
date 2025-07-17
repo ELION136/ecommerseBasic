@@ -53,7 +53,7 @@ class FamilyController extends Controller
      */
     public function show(Family $family)
     {
-        //
+        // no se utiliza, pero se puede implementar si es necesario
     }
 
     /**
@@ -63,7 +63,7 @@ class FamilyController extends Controller
     {
         // Forzamos que busque directamente por ID y lanzará error si no existe
 
-    return view('admin.families.edit', compact('family'));
+        return view('admin.families.edit', compact('family'));
     }
 
     /**
@@ -71,13 +71,18 @@ class FamilyController extends Controller
      */
     public function update(Request $request, Family $family)
     {
-         $request->validate([
-        'name' => 'required|string|max:255|regex:/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/',
-    ]);
+        $request->validate([
+            'name' => 'required|string|max:255|regex:/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/',
+        ]);
 
-    $family->update($request->all());
+        $family->update($request->all());
 
-    return redirect()->route('admin.families.index')->with('success', 'Familia actualizada correctamente.');
+
+
+        /* return redirect()->route('admin.families.index')->with('success', 'Familia actualizada correctamente.');*/
+        return redirect()->route('admin.families.index', $family)
+            ->with('success', 'Familia actualizada correctamente.');
+
     }
 
     /**
@@ -85,6 +90,12 @@ class FamilyController extends Controller
      */
     public function destroy(Family $family)
     {
+
+        if ($family->categories()->count() > 0) {
+            return redirect()->back()
+                ->with('error', 'No se puede eliminar la familia porque tiene categorías asociadas.');
+        }
+
         try {
             $family->delete();
             return redirect()->route('admin.families.index')
