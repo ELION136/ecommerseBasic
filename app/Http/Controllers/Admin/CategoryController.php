@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Family;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -24,7 +25,9 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        $families= Family::all();
+        return view('admin.categories.create', compact('families'));
+        
     }
 
     /**
@@ -32,7 +35,22 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        /* try { */
+            $request->validate([
+                'family_id' => 'required|exists:families,id',
+                'name' => 'required|string|max:255|regex:/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/|unique:categories,name',
+            ]);
+
+            Category::create($request->all());
+
+            return redirect()->route('admin.categories.index')
+                ->with('success', 'Categoría creada exitosamente.');
+
+        /* } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Error al crear la categoría: ' . $e->getMessage())
+                ->withInput();
+        } */
     }
 
     /**
@@ -48,7 +66,9 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        $families = Family::all();
+
+         return view('admin.categories.edit', compact('category', 'families'));
     }
 
     /**
@@ -56,7 +76,16 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        // return $request->all();
+        $request->validate([
+            'family_id' => 'required|exists:families,id',
+            'name' => 'required|string|max:255|regex:/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/|unique:categories,name,',
+        ]);
+
+        $category->update($request->all());
+
+        return redirect()->route('admin.categories.index')
+            ->with('success', 'Categoría actualizada exitosamente.');
     }
 
     /**
