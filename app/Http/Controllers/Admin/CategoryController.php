@@ -15,9 +15,11 @@ class CategoryController extends Controller
     public function index()
     {
 
-        $categories = Category::orderBy('id', 'asc')->paginate(12);
+        $categories = Category::orderBy('id', 'asc')
+        ->with('family')
+        ->paginate(12);
         return view('admin.categories.index', compact('categories'));
-        
+
     }
 
     /**
@@ -25,9 +27,9 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $families= Family::all();
+        $families = Family::all();
         return view('admin.categories.create', compact('families'));
-        
+
     }
 
     /**
@@ -36,15 +38,15 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         /* try { */
-            $request->validate([
-                'family_id' => 'required|exists:families,id',
-                'name' => 'required|string|max:255|regex:/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/|unique:categories,name',
-            ]);
+        $request->validate([
+            'family_id' => 'required|exists:families,id',
+            'name' => 'required|string|max:255|regex:/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/|unique:categories,name',
+        ]);
 
-            Category::create($request->all());
+        Category::create($request->all());
 
-            return redirect()->route('admin.categories.index')
-                ->with('success', 'Categoría creada exitosamente.');
+        return redirect()->route('admin.categories.index')
+            ->with('success', 'Categoría creada exitosamente.');
 
         /* } catch (\Exception $e) {
             return redirect()->back()
@@ -68,7 +70,7 @@ class CategoryController extends Controller
     {
         $families = Family::all();
 
-         return view('admin.categories.edit', compact('category', 'families'));
+        return view('admin.categories.edit', compact('category', 'families'));
     }
 
     /**
@@ -93,6 +95,18 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        if ($category->subcategories()->count() > 0) {
+            return redirect()->back()
+                ->with('error', 'No se puede eliminar la categoría porque tiene subcategorías asociadas.');
+        }
+
+        try {
+            $category->delete();
+            return redirect()->route('admin.categories.index')
+                ->with('success', 'Categoría eliminada exitosamente.');
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Error al eliminar la categoría: ' . $e->getMessage());
+        }
     }
 }

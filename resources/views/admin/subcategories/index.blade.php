@@ -1,16 +1,19 @@
-<x-admin-layout :breadcrumbs="[['name' => 'Dashboard', 'route' => route('admin.dashboard')], ['name' => 'categorias']]">
+<x-admin-layout :breadcrumbs="[[
+    'name' => 'Dashboard', 
+    'route' => route('admin.dashboard')],
+    ['name' => 'subcategorías']]">
 
 
     <x-slot name="action">
-        <a class="btn btn-blue font-bold py-2 px-4 rounded" href="{{ route('admin.categories.create') }}">
-            Añadir categoria
+        <a class="btn btn-blue font-bold py-2 px-4 rounded" href="{{ route('admin.subcategories.create') }}">
+            Añadir subcategoría
         </a>
     </x-slot>
 
     <div class="card">
 
 
-        @if ($categories->count())
+        @if ($subcategories->count())
 
             <div class="relative overflow-x-auto">
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -21,6 +24,10 @@
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 Nombre
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                categoría
+
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 familias
@@ -34,21 +41,26 @@
                     </thead>
                     <tbody>
 
-                        @foreach ($categories as $category)
+                        @foreach ($subcategories as $subcategory)
                             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
                                 <th scope="row"
                                     class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
 
-                                    {{ $category->id }}
+                                    {{ $subcategory->id }}
                                 </th>
                                 <td class="px-6 py-4">
-                                    {{ $category->name }}
+                                    {{ $subcategory->name }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    {{ $category->family->name }}
+                                   {{ $subcategory->category->name }} 
+                                    <!-- ubcategory-?name-->
+                                </td>
+                                <td class="px-6 py-4">
+                                   {{ $subcategory->category->family->name }} 
+                                    <!-- ubcategory-?name-->
                                 </td>
                                 <td class="px-6 py-4 flex space-x-2">
-                                    <a href="{{ route('admin.categories.edit', $category) }}"
+                                    <a href="{{ route('admin.subcategories.edit', $subcategory) }}"
                                         class="btn btn-teal text-white font-bold py-2 px-4 rounded-full ">
                                         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -58,7 +70,7 @@
                                     </a>
 
 
-                                    <button type="button" onclick="confirmDelete({{ $category->id }})"
+                                    <button type="button" onclick="confirmDelete({{ $subcategory->id }})"
                                         class="btn btn-red font-bold py-2 px-4 rounded-full">
                                         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -68,8 +80,8 @@
                                         </svg>
                                     </button>
 
-                                    <form id="delete-form-{{ $category->id }}"
-                                        action="{{ route('admin.categories.destroy', $category) }}" method="POST"
+                                    <form id="delete-form-{{ $subcategory->id }}"
+                                        action="{{ route('admin.subcategories.destroy', $subcategory) }}" method="POST"
                                         class="inline-block">
                                         @csrf
                                         @method('DELETE')
@@ -84,7 +96,7 @@
                 </table>
             </div>
             <div class="mt-4">
-                {{ $categories->links() }}
+                {{ $subcategories->links() }}
             </div>
         @else
             <div class="flex items-center p-4 mb-4 text-sm text-blue-800 border border-blue-300 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400 dark:border-blue-800"
@@ -96,8 +108,8 @@
                 </svg>
                 <span class="sr-only">Info</span>
                 <div>
-                    <span class="font-medium">Info alert!</span> No existe familia registrada. Puedes crear una nueva
-                    categoria
+                    <span class="font-medium">Info alert!</span> No existe subcategoria registrada. Puedes crear una nueva
+                    subcategoria
                 </div>
             </div>
 
