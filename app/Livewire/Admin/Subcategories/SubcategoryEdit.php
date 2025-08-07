@@ -43,12 +43,15 @@ class SubcategoryEdit extends Component
             'subcategoryEdit.category_id' => 'required|exists:categories,id',
         ]);
 
-        try {
+       
             $this->subcategory->update($this->subcategoryEdit);
-            session()->flash('success', 'Subcategoría actualizada exitosamente.');
-        } catch (\Exception $e) {
-            session()->flash('error', 'Error al actualizar la subcategoría: ' . $e->getMessage());
-        }
+            
+            $this->dispatch('swal', [
+                'icon'=> 'success',
+                'title' => 'Bien hecho',
+                'text' => 'Subcategoría actualizada exitosamente.',
+            ]);
+        
     }
     public function render()
     {

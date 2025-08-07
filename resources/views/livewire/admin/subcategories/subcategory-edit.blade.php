@@ -36,14 +36,13 @@
             </div>
             <div class="mb-4">
                 <x-label for="name">Nombre</x-label>
-                <x-input class="w-full"
-                 placeholder="ingrese nombre de la subcategoria" 
-                 wire:model="subcategoryEdit.name"/>
+                <x-input class="w-full" placeholder="ingrese nombre de la subcategoria"
+                    wire:model="subcategoryEdit.name" />
 
 
             </div>
             <div class="flex justify-end">
-                <x-button type="submit">Crear Subcategoria</x-button>
+                <x-button type="submit">Actualizar</x-button>
 
             </div>
 
@@ -51,5 +50,5 @@
     </form>
 
 
-    @dump($subcategory)
+
 </div>
