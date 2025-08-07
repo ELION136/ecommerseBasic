@@ -66,7 +66,7 @@ class SubcategoryController extends Controller
      */
     public function edit(Subcategory $subcategory)
     {
-        //
+        return view('admin.subcategories.edit', compact('subcategory'));
     }
 
     /**

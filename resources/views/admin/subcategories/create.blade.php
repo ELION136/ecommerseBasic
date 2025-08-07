@@ -3,7 +3,7 @@
     ['name' => 'Subcategorias', 'route' => route('admin.subcategories.index')],
     ['name' => 'Crear subcategoria'],
 ]">
-
+{{-- 
     <form action="{{ route('admin.subcategories.store') }}" method="POST">
         @csrf
         <div class="card">
@@ -36,7 +36,8 @@
 
         </div>
     </form>
-
+ --}}
+ @livewire('admin.subcategories.subcategory-create')
 
 
 </x-admin-layout>
