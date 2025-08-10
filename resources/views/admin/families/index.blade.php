@@ -41,7 +41,7 @@
                                 </td>
                                 <td class="px-6 py-4 flex space-x-2">
                                     <a href="{{ route('admin.families.edit', $family) }}"
-                                        class="btn btn-teal text-white font-bold py-2 px-4 rounded-full ">
+                                        class="btn btn-teal text-white font-bold py-2 px-2 rounded-s ">
                                         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <path
@@ -65,7 +65,7 @@
 
 
                                     <button type="button" onclick="confirmDelete({{ $family->id }})"
-                                        class="btn btn-red font-bold py-2 px-4 rounded-full">
+                                        class="btn btn-red font-bold py-2 px-2 rounded-s">
                                         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <path fill-rule="evenodd"

@@ -1,19 +1,19 @@
 <x-admin-layout :breadcrumbs="[[
     'name' => 'Dashboard', 
     'route' => route('admin.dashboard')],
-    ['name' => 'subcategorías']]">
+    ['name' => 'Productos']]">
 
 
     <x-slot name="action">
-        <a class="btn btn-blue font-bold py-2 px-4 rounded" href="{{ route('admin.subcategories.create') }}">
-            Añadir subcategoría
+        <a class="btn btn-blue font-bold py-2 px-4 rounded" href="{{ route('admin.products.create') }}">
+            Añadir producto
         </a>
     </x-slot>
 
     <div class="card">
 
 
-        @if ($subcategories->count())
+        @if ($products->count())
 
             <div class="relative overflow-x-auto">
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -23,14 +23,18 @@
                                 #
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Nombre
+                                sku
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                categoría
+                                imagen
 
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                familias
+                                Nombre
+                            </th>
+
+                            <th scope="col" class="px-6 py-3">
+                                precio
 
                             </th>
                             <th scope="col" class="px-6 py-3">
@@ -41,26 +45,35 @@
                     </thead>
                     <tbody>
 
-                        @foreach ($subcategories as $subcategory)
+                        @foreach ($products as $product)
                             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
                                 <th scope="row"
                                     class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
 
-                                    {{ $subcategory->id }}
+                                    {{ $product->id }}
                                 </th>
                                 <td class="px-6 py-4">
-                                    {{ $subcategory->name }}
+                                    {{ $product->sku }}
                                 </td>
                                 <td class="px-6 py-4">
-                                   {{ $subcategory->category->name }} 
+                                    @if ($product->image_path)
+                                        <img src="{{ Storage::url($product->image_path) }}" alt="{{ $product->name }}"
+                                            class="w-16 h-16 object-cover">
+                                    @else
+                                        <img src="https://via.placeholder.com/150" alt="No Image"
+                                            class="w-16 h-16 object-cover">
+                                    @endif
+                                </td>
+                                <td class="px-6 py-4">
+                                   {{ $product->name}} 
                                     <!-- ubcategory-?name-->
                                 </td>
                                 <td class="px-6 py-4">
-                                   {{ $subcategory->category->family->name }} 
+                                   {{ $product->price}} 
                                     <!-- ubcategory-?name-->
                                 </td>
                                 <td class="px-6 py-4 flex space-x-2">
-                                    <a href="{{ route('admin.subcategories.edit', $subcategory) }}"
+                                    <a href="{{ route('admin.products.edit', $product) }}"
                                         class="btn btn-teal text-white font-bold py-2 px-2 rounded-s ">
                                         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -70,7 +83,7 @@
                                     </a>
 
 
-                                    <button type="button" onclick="confirmDelete({{ $subcategory->id }})"
+                                    <button type="button" onclick="confirmDelete({{ $product->id }})"
                                         class="btn btn-red font-bold py-2 px-2 rounded-s">
                                         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -80,8 +93,8 @@
                                         </svg>
                                     </button>
 
-                                    <form id="delete-form-{{ $subcategory->id }}"
-                                        action="{{ route('admin.subcategories.destroy', $subcategory) }}" method="POST"
+                                    <form id="delete-form-{{ $product->id }}"
+                                        action="{{ route('admin.products.destroy', $product) }}" method="POST"
                                         class="inline-block">
                                         @csrf
                                         @method('DELETE')
@@ -96,7 +109,7 @@
                 </table>
             </div>
             <div class="mt-4">
-                {{ $subcategories->links() }}
+                {{ $products->links() }}
             </div>
         @else
             <div class="flex items-center p-4 mb-4 text-sm text-blue-800 border border-blue-300 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400 dark:border-blue-800"
